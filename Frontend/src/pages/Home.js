@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import { AuthContext } from "../context/AuthContext";
 
 const Home = () => {
+
+    const auth = useContext(AuthContext);
+
   return (
     <div
       style={{
@@ -43,22 +47,24 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="mb-0">
-              <h4>Upload Files Here</h4>
-             <div>
- 
-  <input class="form-control form-control-lg" id="formFileLg" type="file"/>
-</div>
-            </div>
+            {auth.role === "Worker" ? null : (
+              <div className="mb-0">
+                <h4>Upload Files Here</h4>
+                <div>
+                  <input
+                    class="form-control form-control-lg"
+                    id="formFileLg"
+                    type="file"
+                  />
+                </div>
+                <div className="mt-3">
+                  <Link to="/">
+                    <Button>Upload</Button>
+                  </Link>
+                </div>
+              </div>
+            )}
           </Card.Body>
-
-          
-            <div>
-              <Link to="/">
-                <Button>Upload</Button>
-              </Link>
-            </div>
-          
         </Card>
       </center>
       .

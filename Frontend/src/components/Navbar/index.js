@@ -61,22 +61,11 @@ const Navbar = ({ user, toggle }) => {
 
             <NavMenu>
 
-              {!auth.isLoggedIn && (
-                <NavBtn>
-                  <NavBtnLink to="/register">Sign Up</NavBtnLink>
-                </NavBtn>
-              )}
+              
 
               {auth.isLoggedIn && auth.token != null && (
-                <ul className="navbar-nav ms-auto mb-2 mb-lg-0 dropleft">
-                  <li className="nav-item dropdown ">
-                    <div
-                      className="nav-link dropdown-toggle"
-                      id="navbarDropdown"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      style={{ color: "white" }}
+                
+                    <div style={{ color: "white" }}
                     >
                       <img
                         src={
@@ -90,8 +79,7 @@ const Navbar = ({ user, toggle }) => {
                       {auth.fullName}[{auth.role}]
                     </div>
                     
-                  </li>
-                </ul>
+                  
                 // <ul className='navbar-nav ms-auto mb-2 mb-lg-0'>
                 // 	<li className='nav-item'>
                 // 		<span className='text-dark nav-link'>

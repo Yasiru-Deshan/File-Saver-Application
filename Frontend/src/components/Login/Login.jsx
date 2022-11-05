@@ -111,7 +111,7 @@ const Login = () => {
 					</form>
 				</Card.Body>
                   
-               <Card.Footer>Need an account?<Link to='/signup'>Sign Up</Link></Card.Footer>
+              
              </Card>
 			</div>
 		</div>

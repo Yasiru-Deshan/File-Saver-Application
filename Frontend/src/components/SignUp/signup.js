@@ -28,8 +28,9 @@ const Signup = ()=>{
        try{
            newStaff = await axios.post("http://localhost:5000/api/auth/signup",newMember)
            if(newStaff){
-               <Redirect to='/login' />
-				console.log('signed up successfully')
+            //    <Redirect to='/login' />
+			    window.alert("User Added Successfully!");
+				
            }
        }catch(err){
            console.log(err)
@@ -52,7 +53,7 @@ const Signup = ()=>{
                     >
       
                    <Card.Body>
-                        <Card.Title style={{fontWeight: 'bold', fontSize: '1.5rem'}}>Sign Up</Card.Title>
+                        <Card.Title style={{fontWeight: 'bold', fontSize: '1.5rem'}}>Add New Staff Member</Card.Title>
                        
 					<form onSubmit = {submitHandler}>
 						<div className='mb-3'>
@@ -114,13 +115,13 @@ const Signup = ()=>{
 						</div>
 						<div className='mb-3'>
 							<button className='btn btn-primary w-100'>
-								Sign Up
+								Create Account
 							</button>
 						</div>
 					</form>
 				</Card.Body>
                   
-               <Card.Footer>Already have an account?<Link to='/login'>Sign In</Link></Card.Footer>
+               
              </Card>
 			</div>
 		</div>

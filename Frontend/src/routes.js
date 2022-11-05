@@ -9,10 +9,13 @@ const getRoutes = (role, token) => {
 	let routes;
 	if (token && role === 'admin') {
 		routes = (
-			<Switch>
-				<Redirect to='/'></Redirect>
-			</Switch>
-		);
+      <Switch>
+        <Route exact path="/">
+          <SignUp />
+        </Route>
+        <Redirect to="/"></Redirect>
+      </Switch>
+    );
 	} else if (token && role === 'Worker') {
 		routes = (
       <Switch>
@@ -24,10 +27,13 @@ const getRoutes = (role, token) => {
     );
 	} else if (token && role === 'Manager') {
 		routes = (
-			<Switch>	
-				<Redirect to='/'></Redirect>
-			</Switch>
-		);
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Redirect to="/"></Redirect>
+      </Switch>
+    );
 	} else {
 		routes = (
 			<Switch>
