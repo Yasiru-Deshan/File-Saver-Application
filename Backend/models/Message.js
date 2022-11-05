@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const topicSchema = new mongoose.Schema(
+const messageSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -15,4 +15,4 @@ const topicSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Topic", topicSchema);
+module.exports = mongoose.model("Message", messageSchema);

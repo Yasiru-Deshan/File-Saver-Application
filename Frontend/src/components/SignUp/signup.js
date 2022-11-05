@@ -28,8 +28,8 @@ const Signup = ()=>{
        try{
            newStaff = await axios.post("http://localhost:5000/api/auth/signup",newMember)
            if(newStaff){
-               <Redirect to='/' />;
-				return <Redirect to='/' />;
+               <Redirect to='/login' />
+				console.log('signed up successfully')
            }
        }catch(err){
            console.log(err)

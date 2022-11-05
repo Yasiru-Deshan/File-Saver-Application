@@ -52,7 +52,7 @@ const Navbar = ({ user, toggle }) => {
         <Nav scrollNav={scrollNav}>
           <NavbarContainer>
             <NavLogo to="/" onClick={toggleHome}>
-              RP Management Tool
+              File Saver
             </NavLogo>
 
             <MobileIcon onClick={toggle}>
@@ -60,77 +60,6 @@ const Navbar = ({ user, toggle }) => {
             </MobileIcon>
 
             <NavMenu>
-              {auth.isLoggedIn && (
-                <NavItem>
-                  <NavLinks
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    exact="true"
-                    offset={-80}
-                  >
-                    <Link to="/admin/dashboard">Dashboard</Link>
-                  </NavLinks>
-                </NavItem>
-              )}
-              {auth.role === "supervisor" && (
-                <NavItem>
-                  <NavLinks
-                    to="/chat"
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    exact="true"
-                    offset={-80}
-                  >
-                    Chat
-                  </NavLinks>
-                </NavItem>
-              )}
-
-              {auth.role === "cosupervisor" && (
-                <NavItem>
-                  <NavLinks
-                    to="/chat"
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    exact="true"
-                    offset={-80}
-                  >
-                    Chat
-                  </NavLinks>
-                </NavItem>
-              )}
-              {auth.role === "supervisor" && (
-                <NavItem>
-                  <NavLinks
-                    to="/requests"
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    exact="true"
-                    offset={-80}
-                  >
-                    Requests
-                  </NavLinks>
-                </NavItem>
-              )}
-
-              {auth.role === "cosupervisor" && (
-                <NavItem>
-                  <NavLinks
-                    to="/requests"
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    exact="true"
-                    offset={-80}
-                  >
-                    Requests
-                  </NavLinks>
-                </NavItem>
-              )}
 
               {!auth.isLoggedIn && (
                 <NavBtn>
@@ -160,34 +89,7 @@ const Navbar = ({ user, toggle }) => {
                       />
                       {auth.fullName}[{auth.role}]
                     </div>
-                    <ul
-                      className="dropdown-menu"
-                      aria-labelledby="navbarDropdown"
-                    >
-                      <li>
-                        <Link
-                          className="dropdown-item"
-                          to={{
-                            pathname: "/customer-profile",
-                            state: {
-                              customer: auth.user,
-                            },
-                          }}
-                        >
-                          My Profile
-                        </Link>
-                      </li>
-
-                      <li>
-                        <hr className="dropdown-divider" />
-                      </li>
-                      <NavBtnLink
-                        className="btn btn-outline-danger m-2"
-                        onClick={signOut}
-                      >
-                        Logout
-                      </NavBtnLink>
-                    </ul>
+                    
                   </li>
                 </ul>
                 // <ul className='navbar-nav ms-auto mb-2 mb-lg-0'>
@@ -202,6 +104,14 @@ const Navbar = ({ user, toggle }) => {
                 // 		Logout
                 // 	</button>
                 // </ul>
+              )}
+              {auth.isLoggedIn && (
+                <NavBtnLink
+                  className="btn btn-outline-danger m-2"
+                  onClick={signOut}
+                >
+                  Logout
+                </NavBtnLink>
               )}
             </NavMenu>
           </NavbarContainer>

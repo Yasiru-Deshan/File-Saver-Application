@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/signup';
+import Home from './pages/Home'
 
 
 const getRoutes = (role, token) => {
@@ -12,17 +13,18 @@ const getRoutes = (role, token) => {
 				<Redirect to='/'></Redirect>
 			</Switch>
 		);
-	} else if (token && role === 'worker') {
+	} else if (token && role === 'Worker') {
 		routes = (
-			<Switch>
-				<Redirect to='/'></Redirect>
-			</Switch>
-		);
-	} else if (token && role === 'manager') {
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Redirect to="/"></Redirect>
+      </Switch>
+    );
+	} else if (token && role === 'Manager') {
 		routes = (
-			<Switch>
-			
-			
+			<Switch>	
 				<Redirect to='/'></Redirect>
 			</Switch>
 		);
