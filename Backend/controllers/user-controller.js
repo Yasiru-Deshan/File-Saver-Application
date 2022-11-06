@@ -148,11 +148,13 @@ const signUp = async (req, res, next) => {
 
 //save message
 const saveMessage = async (req, res, next) => {
-  const newMessage = new Message(req.body);
+  const newmessage = { message: req.body.message };
+
+  const user = await User.findById(req.body.userId);
 
   try {
-    const savedMessage = await newMessage.save();
-    res.status(200).json(savedMessage);
+    const savedMessage = await user.updateOne({ $push: { messages: [newmessage] } });
+    res.status(200).json("message saved");
   } catch (err) {
     res.status(500).json(err);
   }

@@ -1,12 +1,45 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 const Home = () => {
 
     const auth = useContext(AuthContext);
+    const [message, setMessage] = useState("");
+
+       const saveHandler = async (e) => {
+         let update;
+
+         e.preventDefault();
+         const newMessage = {
+           message: message,
+           userId: auth.userId
+         };
+
+          try {
+            const config = {
+              headers: {
+                "x-auth-token": `${auth.token}`,
+                "Content-Type": "application/json",
+              },
+            };
+
+            update = await axios.put(
+              `${process.env.REACT_APP_BASE_URL}/api/auth/save`,
+              newMessage,
+              config
+            );
+
+            if (update) {
+              window.alert("Message has been saved");
+            }
+          } catch (err) {
+            console.log(err);
+          }
+       };
 
   return (
     <div
@@ -39,11 +72,14 @@ const Home = () => {
                 type="text"
                 name="text"
                 className="form-control mb-6"
-                id="email"
+                id="message"
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                }}
                 placeholder="Enter Message Here"
               />
               <div className="mt-3">
-                <Button>Save</Button>
+                <Button onClick={saveHandler}>Save</Button>
               </div>
             </div>
 

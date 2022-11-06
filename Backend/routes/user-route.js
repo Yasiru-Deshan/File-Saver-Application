@@ -14,6 +14,6 @@ const router = express.Router();
 router.post("/login", login);
 router.post("/signup", signUp); //admin register
 router.post("/create", adminAuth, addUser);
-router.post("/save", Authentication, saveMessage);
+router.put("/save", Authentication, saveMessage);
 
 module.exports = router;

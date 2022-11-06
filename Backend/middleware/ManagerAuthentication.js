@@ -15,7 +15,7 @@ module.exports = function (req, res, next) {
 		const decode = jwt.verify(token, 'filesaver');
 
 		req.user = decode.user;
-		if (req.user.role != 'manager') {
+		if (req.user.role != 'Manager') {
 			return res
 				.status(408)
 				.json({ msg: "You don't have access to perform this task" });
