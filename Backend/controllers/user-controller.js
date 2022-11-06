@@ -1,7 +1,6 @@
 const User = require("../models/user-model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const Message = require("../models/Message");
 
 const login = async (req, res, next) => {
   ("login");
@@ -36,69 +35,6 @@ const login = async (req, res, next) => {
       });
     });
   } catch (err) {
-    return res.status(500).json({
-      msg: err,
-    });
-  }
-};
-
-const addUser = async (req, res, next) => {
-  const {
-    email,
-    image,
-    password,
-    firstName,
-    lastName,
-    address,
-    gender,
-    age,
-    mobile,
-    packageId,
-  } = req.body;
-
-  try {
-    let user = await User.findOne({ email });
-    if (user) {
-      ("user found");
-      return res.status(400).json({
-        msg: "This email is being used. please use a different email",
-      });
-    } else {
-      user = new User({
-        email,
-        image: image
-          ? image
-          : "https://p7.hiclipart.com/preview/355/848/997/computer-icons-user-profile-google-account-photos-icon-account.jpg",
-        password,
-        firstName,
-        lastName,
-        age: parseInt(age),
-        address,
-        mobile,
-        gender,
-        package: packageId ? packageId : null,
-        role: "user",
-      });
-
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(password, salt);
-
-      await user.save();
-
-      const data = {
-        user: {
-          firstName: firstName,
-          id: user.id,
-          role: "user",
-        },
-      };
-      return res.status(200).json({
-        msg: `${firstName} created as a customer`,
-        data,
-      });
-    }
-  } catch (err) {
-    err;
     return res.status(500).json({
       msg: err,
     });
@@ -161,6 +97,5 @@ const saveMessage = async (req, res, next) => {
 };
 
 exports.login = login;
-exports.addUser = addUser;
 exports.signUp = signUp;
 exports.saveMessage = saveMessage;

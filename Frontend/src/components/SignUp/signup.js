@@ -1,11 +1,15 @@
-import React,{useRef} from "react";
+import React,{useRef, useContext} from "react";
 import Card from "react-bootstrap/Card" ;
 import {Link} from "react-router-dom";
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { AuthContext } from "../../context/AuthContext";
+import { NotificationContext } from "../../context/NotificationContext";
 
 const Signup = ()=>{
 
+	 const auth = useContext(AuthContext);
+	 const notification = useContext(NotificationContext);
      const fname = useRef();
      const lname = useRef();
      const password = useRef();
@@ -16,6 +20,13 @@ const Signup = ()=>{
        e.preventDefault()
        let newStaff;
 
+	               const config = {
+                   headers: {
+                     "x-auth-token": `${auth.token}`,
+                     "Content-Type": "application/json",
+                   },
+                 };
+
        const newMember = {
            firstName: fname.current.value,
            lastName: lname.current.value,
@@ -25,13 +36,20 @@ const Signup = ()=>{
           
        }
 
+
+
        try{
-           newStaff = await axios.post("http://localhost:5000/api/auth/signup",newMember)
+           newStaff = await axios.post("http://localhost:5000/api/auth/signup",newMember,config)
            if(newStaff){
             //    <Redirect to='/login' />
 			    window.alert("User Added Successfully!");
 				
-           }
+           }else{
+			notification.showNotification(
+        "something went wrong. please try again",
+        true
+      );
+		   }
        }catch(err){
            console.log(err)
        }

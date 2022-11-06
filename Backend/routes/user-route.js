@@ -12,8 +12,7 @@ const managerAuth = require("../middleware/ManagerAuthentication");
 const router = express.Router();
 
 router.post("/login", login);
-router.post("/signup", signUp); //admin register
-router.post("/create", adminAuth, addUser);
+router.post("/signup", adminAuth,signUp); //admin register
 router.put("/save", Authentication, saveMessage);
 
 module.exports = router;
