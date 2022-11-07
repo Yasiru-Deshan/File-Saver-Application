@@ -19,6 +19,6 @@ const router = express.Router();
 router.post("/login", login);
 router.post("/signup", adminAuth, signUp); //admin register
 router.put("/save", Authentication, saveMessage);
-router.post("/upload", upload.single("Files"), managerAuth, fileUpload);
+router.post("/upload", upload.single("file"), managerAuth, fileUpload);
 
 module.exports = router;
