@@ -1,8 +1,6 @@
 import React,{useRef, useContext} from "react";
 import Card from "react-bootstrap/Card" ;
-import {Link} from "react-router-dom";
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 import { AuthContext } from "../../context/AuthContext";
 import { NotificationContext } from "../../context/NotificationContext";
 

@@ -4,7 +4,6 @@ import { AuthContext } from '../../context/AuthContext';
 import { NotificationContext } from '../../context/NotificationContext';
 import { Redirect } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
-import { Link } from 'react-router-dom';
 
 const Login = () => {
 	const auth = useContext(AuthContext);

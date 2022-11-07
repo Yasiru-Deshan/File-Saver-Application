@@ -1,45 +1,82 @@
 import React, { useState, useContext } from "react";
 import Card from "react-bootstrap/Card";
-import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
 const Home = () => {
+  const auth = useContext(AuthContext);
+  const [message, setMessage] = useState("");
+  const [file, setFile] = useState(null);
 
-    const auth = useContext(AuthContext);
-    const [message, setMessage] = useState("");
+  const saveHandler = async (e) => {
+    let update;
 
-       const saveHandler = async (e) => {
-         let update;
+    e.preventDefault();
+    const newMessage = {
+      message: message,
+      userId: auth.userId,
+    };
 
-         e.preventDefault();
-         const newMessage = {
-           message: message,
-           userId: auth.userId
-         };
+    try {
+      const config = {
+        headers: {
+          "x-auth-token": `${auth.token}`,
+          "Content-Type": "application/json",
+        },
+      };
 
-          try {
-            const config = {
-              headers: {
-                "x-auth-token": `${auth.token}`,
-                "Content-Type": "application/json",
-              },
-            };
+      update = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/api/auth/save`,
+        newMessage,
+        config
+      );
 
-            update = await axios.put(
-              `${process.env.REACT_APP_BASE_URL}/api/auth/save`,
-              newMessage,
-              config
-            );
+      if (update) {
+        window.alert("Message has been saved");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-            if (update) {
-              window.alert("Message has been saved");
-            }
-          } catch (err) {
-            console.log(err);
+  //File upload event implementation
+  const fileUploadHandler = async (event) => {
+    event.preventDefault();
+
+    try {
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("userId", auth.userId);
+
+        const uploaded = await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/api/auth/upload`,
+          formData,
+          {
+            headers: {
+              "x-auth-token": `${auth.token}`,
+              "Content-Type": "multipart/form-data",
+            },
           }
-       };
+        );
+        if (uploaded) {
+          window.alert("File has been uploaded, Successfully");
+        } else {
+          window.alert("Something went wrong");
+        }
+      } else {
+        window.alert("Please select a file to upload.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Select file event implementation
+  const handleFileSelect = (event) => {
+    setFile(event.target.files[0]);
+  };
 
   return (
     <div
@@ -84,21 +121,21 @@ const Home = () => {
             </div>
 
             {auth.role === "Worker" ? null : (
-              <div className="mb-0">
-                <h4>Upload Files Here</h4>
-                <div>
-                  <input
-                    class="form-control form-control-lg"
-                    id="formFileLg"
-                    type="file"
-                  />
+              <Form onSubmit={fileUploadHandler}>
+                <div className="mb-0">
+                  <h4>Upload Files Here</h4>
+                  <div>
+                    <input
+                      class="form-control form-control-lg"
+                      onChange={handleFileSelect}
+                      type="file"
+                    />
+                  </div>
+                  <div className="mt-3">
+                    <Button type="submit">Upload</Button>
+                  </div>
                 </div>
-                <div className="mt-3">
-                  <Link to="/">
-                    <Button>Upload</Button>
-                  </Link>
-                </div>
-              </div>
+              </Form>
             )}
           </Card.Body>
         </Card>
