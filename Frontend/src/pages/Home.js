@@ -62,6 +62,7 @@ const Home = () => {
         );
         if (uploaded) {
           window.alert("File has been uploaded, Successfully");
+          window.location = "/";
         } else {
           window.alert("Something went wrong");
         }
