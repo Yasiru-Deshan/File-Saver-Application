@@ -2,16 +2,14 @@ const User = require("../models/user-model");
 const path = require("path");
 const crypto = require("crypto");
 const fs = require("fs");
+require("dotenv").config();
 
 const CryptoAlgorithm = "aes-256-cbc";
 
 // Obviously keys should not be kept in code, these should be populated with environmental variables or key store
 const secret = {
-  iv: Buffer.from("efb2da92cff888c9c295dc4ee682789c", "hex"),
-  key: Buffer.from(
-    "6245cb9b8dab1c1630bb3283063f963574d612ca6ec60bc8a5d1e07ddd3f7c53",
-    "hex"
-  ),
+  iv: Buffer.from(process.env.IV, process.env.SECRET_TYPE),
+  key: Buffer.from(process.env.KEY, process.env.SECRET_TYPE),
 };
 
 function encrypt(algorithm, buffer, key, iv) {
