@@ -2,6 +2,31 @@ const User = require("../models/user-model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+//Checking the crypto module
+const crypto = require('crypto');
+const algorithm = 'aes-256-cbc'; //Using AES encryption
+const key = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
+
+//Encrypting text
+function encrypt(text) {
+   let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
+   let encrypted = cipher.update(text);
+   encrypted = Buffer.concat([encrypted, cipher.final()]);
+   return { iv: iv.toString('hex'), encryptedData: encrypted.toString('hex') };
+}
+
+// Decrypting text
+function decrypt(text) {
+   let iv = Buffer.from(text.iv, 'hex');
+   let encryptedText = Buffer.from(text.encryptedData, 'hex');
+   let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
+   let decrypted = decipher.update(encryptedText);
+   decrypted = Buffer.concat([decrypted, decipher.final()]);
+   return decrypted.toString();
+}
+
+//login
 const login = async (req, res, next) => {
   ("login");
   const { email, password } = req.body;
@@ -41,6 +66,7 @@ const login = async (req, res, next) => {
   }
 };
 
+//signup
 const signUp = async (req, res, next) => {
   const { email, password, firstName, lastName, role } = req.body;
 
@@ -84,12 +110,17 @@ const signUp = async (req, res, next) => {
 
 //save message
 const saveMessage = async (req, res, next) => {
-  const newmessage = { message: req.body.message };
+  const encryptedMsg = encrypt(req.body.message); 
+  console.log(encryptedMsg)
+  const newmessage = { message: encryptedMsg.encryptedData };
+
 
   const user = await User.findById(req.body.userId);
 
   try {
-    const savedMessage = await user.updateOne({ $push: { messages: [newmessage] } });
+    const savedMessage = await user.updateOne({
+      $push: { messages: [newmessage]},
+    });
     res.status(200).json("message saved");
   } catch (err) {
     res.status(500).json(err);
