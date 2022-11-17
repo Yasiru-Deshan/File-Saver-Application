@@ -26,5 +26,5 @@ app.use("/api/auth", userRoutes);
 app.use("/api/aws", awsRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server is up and running on port ${PORT}`);
+  console.log(`🔑 Application server is up and running on port ${PORT}`);
 });
